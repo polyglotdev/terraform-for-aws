@@ -77,3 +77,5 @@ Here's a breakdown of the expression:
 - `? 1 : 0` is the ternary operation. The `?` symbol separates the condition from the outcomes. The value before the `:` (in this case `1`) is the result if the condition is true. The value after the `:` (in this case `0`) is the result if the condition is false.
 
 So, if the `environment` variable is set to `"prod"`, this expression will evaluate to `1`. For any other value of `environment`, it will evaluate to `0`. This can be useful for controlling the behavior of your Terraform configuration based on the environment it's being run in.
+
+> 🧠 Do not forget that AMI's are region specific.
