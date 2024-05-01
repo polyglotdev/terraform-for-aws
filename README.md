@@ -30,3 +30,28 @@ When deploying an EC2 instance in AWS, placing it within a subnet is crucial for
 - By strategically placing instances in different subnets across AZs, you can design resilient and highly available architectures that are robust against a range of failure scenarios, including data center failures.
 5. **Regulatory Compliance**
 - For compliance with various regulations, it might be necessary to ensure that data does not leave a geographic region or is handled within certain controlled network segments. Subnets help in enforcing compliance by physically and logically isolating resources as required by such regulations.
+
+## TF Commands
+
+- `terraform init` - Initialize a Terraform working directory
+- `terraform plan` - Generate and show an execution plan
+- `terraform apply` - Builds or changes infrastructure
+- `terraform destroy` - Destroy Terraform-managed infrastructure
+- `terraform validate` - Validates the Terraform files
+- `terraform fmt` - Rewrites config files to canonical format
+- `terraform show` - Provides human-readable output from a state or plan file
+- `terraform output` - Read an output from a state file
+- `terraform state` - Advanced state management
+- `terraform import` - Import existing infrastructure into Terraform
+- `terraform graph` - Create a visual graph of Terraform resources
+- `terraform taint` - Manually mark a resource for recreation
+- `terraform untaint` - Manually unmark a resource as tainted
+- `terraform workspace` - Workspace management
+- `terraform console` - Interactive console for evaluating expressions
+- `terraform force-unlock` - Release a stuck lock on the current workspace
+- `terraform login` - Obtain and save credentials for a remote host
+- `terraform logout` - Remove locally-stored credentials for a remote host
+- `terraform output` - Read an output from a state file
+- `terraform providers` - Prints a tree of the providers used in the configuration
+- `terraform refresh` - Update the state to match real resources
+- `terraform -version` - Prints the Terraform version
