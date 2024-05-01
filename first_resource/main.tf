@@ -21,11 +21,11 @@ data "aws_ami" "ubuntu" {
   }
 }
 
-resource "aws_vpc" "my_vpc" {
-  cidr_block = "10.0.0.0/16"
+resource "aws_vpc" "vpc" {
+  cidr_block = var.vpc_cidr_block
 
   tags = {
-    "Name" = "my_vpc"
+    "Name" = "vpc_dom"
   }
 }
 
@@ -37,5 +37,14 @@ resource "aws_instance" "ec2_dom" {
 
   tags = {
     "Name" = "ec2_dom"
+  }
+}
+
+resource "aws_subnet" "my_subnet" {
+  vpc_id     = aws_vpc.vpc.id
+  cidr_block = "10.0.0.0/24"
+
+  tags = {
+    "Name" = "subnet_dom"
   }
 }
