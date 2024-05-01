@@ -28,3 +28,14 @@ resource "aws_vpc" "my_vpc" {
     "Name" = "my_vpc"
   }
 }
+
+# create a ec2 instance
+resource "aws_instance" "ec2_dom" {
+  ami           = data.aws_ami.ubuntu.id
+  instance_type = "t2.micro"
+  subnet_id     = aws_subnet.my_subnet.id
+
+  tags = {
+    "Name" = "ec2_dom"
+  }
+}
