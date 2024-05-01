@@ -11,22 +11,20 @@ provider "aws" {
   region = "us-east-1"
 }
 
-data "aws_ami" "latest" {
+data "aws_ami" "ubuntu" {
+  owners      = ["099720109477"] # This is Canonical's AWS account ID for their official AMIs
   most_recent = true
 
   filter {
     name   = "name"
-    values = ["amzn-ami-hvm-*-x86_64-gp2"]
+    values = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"]
   }
-
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-  }
-
-  owners = ["amazon"]
 }
 
 resource "aws_vpc" "my_vpc" {
   cidr_block = "10.0.0.0/16"
+
+  tags = {
+    "Name" = "my_vpc"
+  }
 }
