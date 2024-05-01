@@ -16,9 +16,19 @@ resource "random_pet" "name" {
   separator = "-"
 }
 
+data "aws_ami" "ubuntu" {
+  owners      = ["099720109477"] # This is Canonical's AWS account ID for their official AMIs
+  most_recent = true
+
+  filter {
+    name   = "name"
+    values = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"]
+  }
+}
+
 # create a db server and output the public ip and private ip
 resource "aws_instance" "ec2-dom" {
-  ami           = "ami-0c55b159cbfafe1f0"
+  ami           = data.aws_ami.ubuntu.id
   instance_type = "t2.micro"
   count         = 1
   subnet_id     = aws_subnet.subnet.id
