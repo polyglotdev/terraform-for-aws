@@ -48,3 +48,7 @@ resource "aws_subnet" "my_subnet" {
     "Name" = "subnet_dom"
   }
 }
+
+output "name" {
+  value = aws_instance.ec2_dom.tags["Name"]
+}
