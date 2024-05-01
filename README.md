@@ -66,4 +66,14 @@ resource "aws_instance" "ec2" {
 }
 ```
 
-Here we are using a conditional expression to determine whether to create an EC2 instance based on the value of the `environment` variable. If the environment is set to "prod", the count will be set to 1, creating an EC2 instance. Otherwise, the count will be set to 0, and no EC2 instance will be created.
+The line of code `count = var.environment == "prod" ? 1 : 0` is a conditional expression in Terraform, which is a tool for building, changing, and versioning infrastructure safely and efficiently. This expression is also known as a **ternary operation** in many programming languages.
+
+The expression `var.environment == "prod" ? 1 : 0` can be read as "If the variable `environment` is equal to the string `"prod"`, then the result is `1`, otherwise the result is `0`".
+
+Here's a breakdown of the expression:
+
+- `var.environment` is a variable in Terraform. The `var` keyword is used to reference variables in Terraform. In this case, `environment` is the variable being referenced.
+- `== "prod"` is a comparison operation. It checks if the value of `var.environment` is equal to the string `"prod"`.
+- `? 1 : 0` is the ternary operation. The `?` symbol separates the condition from the outcomes. The value before the `:` (in this case `1`) is the result if the condition is true. The value after the `:` (in this case `0`) is the result if the condition is false.
+
+So, if the `environment` variable is set to `"prod"`, this expression will evaluate to `1`. For any other value of `environment`, it will evaluate to `0`. This can be useful for controlling the behavior of your Terraform configuration based on the environment it's being run in.
