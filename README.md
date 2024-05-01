@@ -79,3 +79,54 @@ Here's a breakdown of the expression:
 So, if the `environment` variable is set to `"prod"`, this expression will evaluate to `1`. For any other value of `environment`, it will evaluate to `0`. This can be useful for controlling the behavior of your Terraform configuration based on the environment it's being run in.
 
 > 🧠 Do not forget that AMI's are region specific.
+
+## Ingress and Egress
+
+In the context of AWS and network security in general, **ingress** and **egress** refer to the traffic rules governing the flow of data into and out of a network resource, such as a server or a network segment like a Virtual Private Cloud (VPC). These terms are commonly used in the configuration of security groups in AWS, which act as a virtual firewall for instances to control inbound and outbound traffic.
+
+### Ingress
+
+- **Ingress** rules define the allowed incoming traffic to an instance or resource. These rules can specify which types of traffic (based on protocols like TCP, UDP, ICMP), which source IP addresses, and which ports can send data to the instance.
+- When you configure ingress rules, you are essentially determining who can initiate connections to your resource and on what channels.
+
+### Egress
+
+- **Egress** rules define the allowed outgoing traffic from an instance or resource. These rules set which types of traffic can exit to other destinations, which destination IP addresses are accessible, and what ports the instance can use to send data.
+- Egress rules are crucial for controlling what services and hosts your instances can talk to, which can be particularly important for preventing data exfiltration or limiting external communications as part of security practices.
+
+### Example Configuration in AWS
+
+Here is a simple example of how ingress and egress rules might be defined in a Terraform configuration for an AWS security group:
+
+```hcl
+resource "aws_security_group" "example" {
+  name        = "example_security_group"
+  description = "Security group for example instance"
+  vpc_id      = aws_vpc.main.id
+
+  # Ingress rule allowing HTTP traffic
+  ingress {
+    description = "Allow HTTP"
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  # Egress rule allowing all outbound traffic
+  egress {
+    description = "Allow all outbound traffic"
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"  # "-1" indicates all protocols
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+```
+
+### Points to Consider
+- **Default Behavior**: In AWS, the default behavior for security groups is that they allow all outbound traffic (egress) unless rules are specified that restrict this traffic. Conversely, all inbound traffic (ingress) is blocked unless explicitly allowed by an ingress rule.
+- **Security Best Practices**: It’s recommended to follow the principle of least privilege, specifying only the necessary ports, protocols, and IP ranges to minimize potential vulnerabilities.
+- **Managing Complexity**: As environments grow, managing ingress and egress rules can become complex. It’s important to regularly review and audit these rules to ensure they meet current requirements without exposing unnecessary risk.
+
+Using ingress and egress rules effectively allows administrators to tightly control how resources communicate with each other and the outside world, enhancing the security posture of the infrastructure.
