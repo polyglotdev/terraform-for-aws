@@ -50,12 +50,48 @@ data "aws_ami" "ubuntu" {
   owners = ["099720109477"]
 }
 
+resource "aws_eip" "dom-eip" {
+  instance = aws_instance.ec2-dom.id
+}
+
+
 resource "aws_instance" "ec2-dom" {
   ami           = data.aws_ami.ubuntu.id
   instance_type = "t2.micro"
-  count         = 1
   subnet_id     = aws_subnet.subnet.id
   tags = {
     Name = random_pet.name.id
   }
+}
+
+resource "aws_internet_gateway" "gw" {
+  vpc_id = aws_vpc.vpc.id
+
+  tags = {
+    Name = "MyInternetGateway"
+  }
+}
+
+resource "aws_route_table" "rt" {
+  vpc_id = aws_vpc.vpc.id
+
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.gw.id
+  }
+
+  tags = {
+    Name = "MyRouteTable"
+  }
+}
+
+resource "aws_route_table_association" "a" {
+  subnet_id      = aws_subnet.subnet.id
+  route_table_id = aws_route_table.rt.id
+}
+
+
+
+output "EIP" {
+  value = aws_eip.dom-eip.public_ip
 }
