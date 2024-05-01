@@ -7,6 +7,11 @@ terraform {
   }
 }
 
+resource "random_pet" "name" {
+  length    = 2
+  separator = "-"
+}
+
 provider "aws" {
   region = "us-east-1"
 }
@@ -25,7 +30,7 @@ resource "aws_vpc" "vpc" {
   cidr_block = "10.0.0.0/16"
 
   tags = {
-    "Name" = "vpc_dom1"
+    "Name" = random_pet.name.id
   }
 }
 
@@ -34,7 +39,7 @@ resource "aws_subnet" "my_subnet" {
   cidr_block = "10.0.0.0/24"
 
   tags = {
-    "Name" = "subnet_dom1"
+    "Name" = random_pet.name.id
   }
 }
 
@@ -44,6 +49,6 @@ resource "aws_instance" "ec2_dom" {
   subnet_id     = aws_subnet.my_subnet.id
 
   tags = {
-    "Name" = "ec2_dom1"
+    "Name" = random_pet.name.id
   }
 }
