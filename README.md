@@ -55,3 +55,15 @@ When deploying an EC2 instance in AWS, placing it within a subnet is crucial for
 - `terraform providers` - Prints a tree of the providers used in the configuration
 - `terraform refresh` - Update the state to match real resources
 - `terraform -version` - Prints the Terraform version
+
+## Terraform can do that?
+
+```hcl
+resource "aws_instance" "ec2" {
+  ami           = "ami-032598fcc7e9d1c7a"
+  instance_type = "t2.micro"
+  count         = var.environment == "prod" ? 1 : 0
+}
+```
+
+Here we are using a conditional expression to determine whether to create an EC2 instance based on the value of the `environment` variable. If the environment is set to "prod", the count will be set to 1, creating an EC2 instance. Otherwise, the count will be set to 0, and no EC2 instance will be created.
